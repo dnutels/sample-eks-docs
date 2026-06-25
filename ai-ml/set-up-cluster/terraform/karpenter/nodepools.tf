@@ -1,20 +1,20 @@
 # GPU NodePools, controlled by var.nodepools (a map keyed by folder name under nodepools/).
-# Defaults to { "dynamic-spot-on-demand" = {} }.
+# Defaults to { "spot-to-ondemand" = {} }.
 #
 # Usage:
 #   terraform apply
-#       -> dynamic-spot-on-demand only (default)
-#   terraform apply -var 'nodepools={"reserved-capacity-spot-overflow"={reservation={}}}'
+#       -> spot-to-ondemand only (default)
+#   terraform apply -var 'nodepools={"reserved-to-spot-to-ondemand"={reservation={}}}'
 #       -> reserved gpu-inf pool (reserved-first, spot/on-demand overflow). reservation={} makes Terraform
 #          create a tagged ODCR with defaults (g6e.4xlarge, 1 instance, first cluster AZ); the NodeClass
-#          selects it by tag (nodepool=reserved-capacity-spot-overflow).
-#   terraform apply -var 'nodepools={"static-capacity-dynamic-overflow"={reservation={instance_type="g6e.xlarge",instance_count=3}}}'
+#          selects it by tag (nodepool=reserved-to-spot-to-ondemand).
+#   terraform apply -var 'nodepools={"static-capacity-to-spot-to-ondemand"={reservation={instance_type="g6e.xlarge",instance_count=3}}}'
 #       -> always-on reserved pool (gpu-static, replicas = instance_count) backed by an ODCR, plus a
 #          gpu-dynamic spot/on-demand overflow pool.
 #   reservation overrides instance_type / instance_count / az, e.g. {reservation={instance_type="g6e.4xlarge",instance_count=2,az="us-east-2a"}}
 #
 # Notes:
-#   - dynamic-spot-on-demand, reserved-capacity-spot-overflow, and static-capacity-dynamic-overflow are
+#   - spot-to-ondemand, reserved-to-spot-to-ondemand, and static-capacity-to-spot-to-ondemand are
 #     mutually exclusive GPU inference strategies; enable at most one (enforced by a validation).
 #   - Each strategy with a `reservation` gets its own ODCR tagged nodepool=<key>.
 
