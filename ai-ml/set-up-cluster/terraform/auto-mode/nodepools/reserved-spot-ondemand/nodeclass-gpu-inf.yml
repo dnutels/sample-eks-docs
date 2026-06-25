@@ -15,4 +15,4 @@ spec:
         karpenter.sh/discovery: ${cluster_name}
   capacityReservationSelectorTerms:
     - tags:
-        nodepool: reserved-to-spot-to-ondemand
+        nodepool: reserved-spot-ondemand
